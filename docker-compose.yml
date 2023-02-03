@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "buputi2789"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "news_portal_db"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+    - news-portal-data:/var/lib/postgresql/data
+    ports:
+    - 5432:5432
+
+volumes:
+  news-portal-data:
