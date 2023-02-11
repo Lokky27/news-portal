@@ -1,10 +1,10 @@
-package org.newsportal.database.repository;
+package org.newsportal.database.dao;
 
-import org.newsportal.database.repository.entity.User;
+import org.newsportal.database.dao.entity.User;
 
 import java.util.List;
 
-public interface UserRepository {
+public interface UserDao {
     List<User> findAll();
 
     User findById(Long id);
