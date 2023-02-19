@@ -3,6 +3,7 @@ package org.newsportal.database.repository.impl;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.newsportal.database.repository.UserRepository;
 import org.newsportal.database.repository.entity.User;
 import org.newsportal.database.repository.util.HibernateUtil;
@@ -53,21 +54,33 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User createUser(User user) {
-        return null;
+        try(Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.save(user);
+            transaction.commit();
+            return user;
+        }
     }
 
     @Override
     public User updateUserById(Long id, User user) {
-        return null;
+        try(Session session = sessionFactory.openSession()) {
+            User userToUpdate = session.get(User.class, id);
+            userToUpdate.setUsername(user.getUsername());
+            userToUpdate.setPassword(user.getPassword());
+            session.beginTransaction();
+            session.update(userToUpdate);
+            session.getTransaction().commit();
+            return userToUpdate;
+        }
     }
 
     @Override
     public void deleteUserById(Long id) {
-
-    }
-
-    public static void main(String[] args) {
-        UserRepository userRepository = new UserRepositoryImpl();
-        System.out.println(userRepository.findAll());
+        try(Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.delete(session.get(User.class, id));
+            session.getTransaction().commit();
+        }
     }
 }
