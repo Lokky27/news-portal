@@ -1,13 +1,16 @@
 package org.newsportal.database.repository.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Generated;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
 @Entity
 @Table(name = "article")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

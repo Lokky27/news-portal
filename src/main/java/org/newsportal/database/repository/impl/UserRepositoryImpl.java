@@ -22,7 +22,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
             Root<User> root = criteriaQuery.from(User.class);
@@ -35,18 +35,20 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findById(Long id) {
-        try(Session session = sessionFactory.openSession()) {
-            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<User> getUserByIdCriteriaQuery = criteriaBuilder.createQuery(User.class);
-            Root<User> root = getUserByIdCriteriaQuery.from(User.class);
-            Query getUserByIdQuery = 
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(User.class, id);
         }
-        return null;
     }
 
     @Override
     public User findByUsername(String userName) {
-        return null;
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaQuery<User> criteriaQuery = session.getCriteriaBuilder().createQuery(User.class);
+            criteriaQuery.select(criteriaQuery.from(User.class));
+            criteriaQuery.where(session.getCriteriaBuilder().equal(criteriaQuery.from(User.class).get("username"), userName));
+
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }
     }
 
     @Override
