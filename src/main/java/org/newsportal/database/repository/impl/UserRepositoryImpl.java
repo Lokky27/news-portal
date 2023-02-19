@@ -35,6 +35,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findById(Long id) {
+        try(Session session = sessionFactory.openSession()) {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<User> getUserByIdCriteriaQuery = criteriaBuilder.createQuery(User.class);
+            Root<User> root = getUserByIdCriteriaQuery.from(User.class);
+            Query getUserByIdQuery = 
+        }
         return null;
     }
 
