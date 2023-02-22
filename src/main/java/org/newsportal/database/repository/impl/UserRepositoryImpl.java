@@ -11,7 +11,6 @@ import org.newsportal.database.repository.util.HibernateUtil;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
             Root<User> root = criteriaQuery.from(User.class);
@@ -38,69 +37,50 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User findById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<User> findUserByIdCriteriaQuery = builder.createQuery(User.class);
-            Root<User> root = findUserByIdCriteriaQuery.from(User.class);
-            findUserByIdCriteriaQuery.where(builder.equal(root.get("id"), id));
-            findUserByIdCriteriaQuery.select(root);
-            Query query = session.createQuery(findUserByIdCriteriaQuery);
-
-            return null;
+            return session.get(User.class, id);
         }
     }
 
     @Override
     public User findByUsername(String userName) {
-        return null;
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaQuery<User> criteriaQuery = session.getCriteriaBuilder().createQuery(User.class);
+            criteriaQuery.select(criteriaQuery.from(User.class));
+            criteriaQuery.where(session.getCriteriaBuilder().equal(criteriaQuery.from(User.class).get("username"), userName));
+
+            return session.createQuery(criteriaQuery).getSingleResult();
+        }
     }
 
     @Override
     public User createUser(User user) {
         try(Session session = sessionFactory.openSession()) {
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaUpdate<User> saveUserCriteriaQuery = builder.createCriteriaUpdate(User.class);
-            Root<User> root = saveUserCriteriaQuery.from(User.class);
-
-
+            Transaction transaction = session.beginTransaction();
+            session.save(user);
+            transaction.commit();
+            return user;
         }
-        return null;
     }
 
     @Override
     public User updateUserById(Long id, User user) {
         try(Session session = sessionFactory.openSession()) {
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaUpdate<User> updateUserCriteriaQuery = builder.createCriteriaUpdate(User.class);
-            Root<User> root = updateUserCriteriaQuery.from(User.class);
-            updateUserCriteriaQuery.set("username", user.getUsername());
-            updateUserCriteriaQuery.set("password", user.getPassword());
-            updateUserCriteriaQuery.where(builder.equal(root.get("id"), id));
-
-            Transaction transaction = session.beginTransaction();
-            session.createQuery(updateUserCriteriaQuery).executeUpdate();
-            transaction.commit();
-
+            User userToUpdate = session.get(User.class, id);
+            userToUpdate.setUsername(user.getUsername());
+            userToUpdate.setPassword(user.getPassword());
+            session.beginTransaction();
+            session.update(userToUpdate);
+            session.getTransaction().commit();
+            return userToUpdate;
         }
-        return null;
     }
 
     @Override
     public void deleteUserById(Long id) {
         try(Session session = sessionFactory.openSession()) {
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
-            Root<User> root = criteriaQuery.from(User.class);
-            criteriaQuery.where(builder.equal(root.get("id"), id));
-
-            Transaction transaction = session.beginTransaction();
-            session.createQuery(criteriaQuery).executeUpdate();
-            transaction.commit();
+            session.beginTransaction();
+            session.delete(session.get(User.class, id));
+            session.getTransaction().commit();
         }
-
-    }
-
-    public static void main(String[] args) {
-        UserRepository userRepository = new UserRepositoryImpl();
-        System.out.println(userRepository.);
     }
 }
