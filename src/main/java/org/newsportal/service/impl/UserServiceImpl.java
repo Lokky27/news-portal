@@ -19,31 +19,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<List<User>> getAll() {
-        return Optional.empty();
+        return Optional.of(userMapper.mapToService(userRepository.findAll()));
     }
 
     @Override
     public Optional<User> getById(Long id) {
-        return Optional.empty();
+        User userFromDb = userMapper.mapToService(userRepository.findById(id));
+        return Optional.of(userFromDb);
     }
 
     @Override
     public Optional<User> getByUsername(String userName) {
-        return Optional.empty();
+
+        return Optional.of(userMapper.mapToService(userRepository.findByUsername(userName)));
     }
 
     @Override
-    public Optional<User> createUser(User user) {
-        return Optional.empty();
+    public Optional<User> createUser(User user)
+    {
+        org.newsportal.database.repository.entity.User savedUser = userMapper.mapToDatabase(user);
+        return Optional.of(userMapper.mapToService(userRepository.createUser(savedUser)));
     }
 
     @Override
     public Optional<User> changeUserById(Long id, User user) {
-        return Optional.empty();
+        org.newsportal.database.repository.entity.User userToUpdateInDatabase = userMapper.mapToDatabase(user);
+        return Optional.of(userMapper.mapToService(userRepository.updateUserById(id, userToUpdateInDatabase)));
     }
 
     @Override
     public void removeUserById(Long id) {
 
+        userRepository.deleteUserById(id);
     }
 }

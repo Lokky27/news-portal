@@ -13,7 +13,9 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 
 public class ArticleRepositoryImpl implements ArticleRepository {
     private final SessionFactory sessionFactory;
@@ -35,6 +37,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     }
 
     @Override
+    @Transactional
     public Article findById(Long id) {
         try(Session session = sessionFactory.openSession()) {
             return session.get(Article.class, id);
@@ -87,18 +90,9 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     public static void main(String[] args) {
         ArticleRepository articleRepository = new ArticleRepositoryImpl();
         UserRepository userRepository = new UserRepositoryImpl();
+        User user = userRepository.findById(1L);
+        Set<Article> articles = user.getArticleSet();
 
-//        Article article = new Article();
-//        article.setTitle("First Article");
-//        article.setContent("Very interesting article");
-//        article.setUser(userRepository.findById(1L));
-//
-//        Article article1 = new Article();
-//        article1.setTitle("Second article");
-//        article1.setContent("Not so much interesting article");
-//        article1.setUser(userRepository.findById(2L));
-//        articleRepository.createArticle(article);
-//        articleRepository.createArticle(article1);
-
+        System.out.println("User: " + user.getUsername() + " read " + articles.size() + " articles");
     }
 }

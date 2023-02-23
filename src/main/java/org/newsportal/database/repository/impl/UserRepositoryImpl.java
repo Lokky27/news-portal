@@ -12,6 +12,7 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
@@ -55,14 +56,15 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User createUser(User user) {
         try(Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
+//            Transaction transaction = session.beginTransaction();
             session.save(user);
-            transaction.commit();
+//            transaction.commit();
             return user;
         }
     }
 
     @Override
+    @Transactional
     public User updateUserById(Long id, User user) {
         try(Session session = sessionFactory.openSession()) {
             User userToUpdate = session.get(User.class, id);
