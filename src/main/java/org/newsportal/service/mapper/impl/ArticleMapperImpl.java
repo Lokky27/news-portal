@@ -19,26 +19,41 @@ public class ArticleMapperImpl implements ArticleMapper {
             user.setUsername(source.getUser().getUsername());
             user.setPassword(source.getUser().getPassword());
         }
-
-        return new Article(source.getId(), source.getTitle(), source.getContent(), user);
+        return new Article(source.getId(),
+                source.getTitle(),
+                source.getContent(),
+                user);
     }
 
     @Override
     public org.newsportal.service.model.Article mapToService(Article source) {
-        return null;
+        if (source == null) return null;
+        org.newsportal.service.model.User user = null;
+        if (source.getUser() != null) {
+            user.setId(source.getUser().getId());
+            user.setPassword(source.getUser().getPassword());
+            user.setUsername(source.getUser().getUsername());
+        }
+        return new org.newsportal.service.model.Article(source.getId(),
+                source.getTitle(),
+                source.getContent(),
+                user);
     }
 
     @Override
     public List<Article> mapToDatabase(List<org.newsportal.service.model.Article> source) {
-        List<Article> entities = new ArrayList<>();
-        for (org.newsportal.service.model.Article article : source) {
-            entities.add(mapToDatabase(article));
-        }
-        return entities;
+
+        return source.stream()
+                .map(this::mapToDatabase)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<org.newsportal.service.model.Article> mapToService(List<Article> source) {
-        return source.stream().map(this::mapToService).filter(Objects::nonNull).collect(Collectors.toList());
+        return source.stream()
+                .map(this::mapToService)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 }

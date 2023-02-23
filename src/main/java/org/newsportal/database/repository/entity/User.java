@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -21,7 +22,7 @@ public class User {
     @Column(name = "password")
     private String password;
     @OneToMany
-    private Set<Article> articleSet;
+    private Set<Article> articleSet = new HashSet<>();
 
     @Override
     public String toString() {
