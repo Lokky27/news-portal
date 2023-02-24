@@ -5,15 +5,20 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.newsportal.database.repository.UserRepository;
+import org.newsportal.database.repository.entity.Article;
 import org.newsportal.database.repository.entity.User;
 import org.newsportal.database.repository.util.HibernateUtil;
 
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class UserRepositoryImpl implements UserRepository {
     private final SessionFactory sessionFactory;
@@ -54,11 +59,19 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public Set<Article> getArticlesOfUser(User user) {
+        try(Session session = sessionFactory.openSession()) {
+            Query query = session.createQuery("from Article a inner join a.user");
+            return new HashSet<>(query.getResultList());
+        }
+    }
+
+    @Override
     public User createUser(User user) {
         try(Session session = sessionFactory.openSession()) {
-//            Transaction transaction = session.beginTransaction();
+            Transaction transaction = session.beginTransaction();
             session.save(user);
-//            transaction.commit();
+            transaction.commit();
             return user;
         }
     }

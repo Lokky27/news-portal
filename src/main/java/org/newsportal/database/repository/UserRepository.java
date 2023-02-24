@@ -1,8 +1,10 @@
 package org.newsportal.database.repository;
 
+import org.newsportal.database.repository.entity.Article;
 import org.newsportal.database.repository.entity.User;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserRepository {
     List<User> findAll();
@@ -10,6 +12,8 @@ public interface UserRepository {
     User findById(Long id);
 
     User findByUsername(String userName);
+
+    Set<Article> getArticlesOfUser(User user);
 
     User createUser(User user);
 

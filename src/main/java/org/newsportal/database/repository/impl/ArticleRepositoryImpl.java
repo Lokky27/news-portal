@@ -91,7 +91,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
         ArticleRepository articleRepository = new ArticleRepositoryImpl();
         UserRepository userRepository = new UserRepositoryImpl();
         User user = userRepository.findById(1L);
-        Set<Article> articles = user.getArticleSet();
+        Set<Article> articles = userRepository.getArticlesOfUser(user);
 
         System.out.println("User: " + user.getUsername() + " read " + articles.size() + " articles");
     }

@@ -21,7 +21,7 @@ public class User {
     private String username;
     @Column(name = "password")
     private String password;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Article> articleSet = new HashSet<>();
 
     @Override
