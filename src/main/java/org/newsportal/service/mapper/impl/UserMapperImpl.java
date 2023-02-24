@@ -14,10 +14,6 @@ import java.util.stream.Collectors;
 public class UserMapperImpl implements UserMapper {
     private ArticleMapper articleMapper;
 
-    public UserMapperImpl () {
-
-    }
-
     public UserMapperImpl(ArticleMapper articleMapper) {
         this.articleMapper = articleMapper;
     }

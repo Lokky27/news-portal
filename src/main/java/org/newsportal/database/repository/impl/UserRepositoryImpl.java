@@ -61,7 +61,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public Set<Article> getArticlesOfUser(User user) {
         try(Session session = sessionFactory.openSession()) {
-            Query query = session.createQuery("from Article a inner join a.user");
+            Query query = session.createQuery("from Article as article join article.user as user with user.id=" + user.getId());
             return new HashSet<>(query.getResultList());
         }
     }

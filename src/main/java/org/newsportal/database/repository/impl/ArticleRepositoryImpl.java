@@ -87,12 +87,4 @@ public class ArticleRepositoryImpl implements ArticleRepository {
         }
     }
 
-    public static void main(String[] args) {
-        ArticleRepository articleRepository = new ArticleRepositoryImpl();
-        UserRepository userRepository = new UserRepositoryImpl();
-        User user = userRepository.findById(1L);
-        Set<Article> articles = userRepository.getArticlesOfUser(user);
-
-        System.out.println("User: " + user.getUsername() + " read " + articles.size() + " articles");
-    }
 }
