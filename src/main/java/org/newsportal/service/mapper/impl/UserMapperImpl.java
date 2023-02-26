@@ -4,13 +4,14 @@ import org.newsportal.database.repository.entity.Article;
 import org.newsportal.database.repository.entity.User;
 import org.newsportal.service.mapper.ArticleMapper;
 import org.newsportal.service.mapper.UserMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+@Component
 public class UserMapperImpl implements UserMapper {
     private ArticleMapper articleMapper;
 

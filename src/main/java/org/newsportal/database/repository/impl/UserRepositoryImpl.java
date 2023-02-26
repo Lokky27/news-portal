@@ -8,6 +8,7 @@ import org.newsportal.database.repository.UserRepository;
 import org.newsportal.database.repository.entity.Article;
 import org.newsportal.database.repository.entity.User;
 import org.newsportal.database.repository.util.HibernateUtil;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -19,7 +20,7 @@ import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+@Repository
 public class UserRepositoryImpl implements UserRepository {
     private final SessionFactory sessionFactory;
 

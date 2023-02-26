@@ -3,12 +3,13 @@ package org.newsportal.service.mapper.impl;
 import org.newsportal.database.repository.entity.Article;
 import org.newsportal.database.repository.entity.User;
 import org.newsportal.service.mapper.ArticleMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
+@Component
 public class ArticleMapperImpl implements ArticleMapper {
     @Override
     public Article mapToDatabase(org.newsportal.service.model.Article source) {

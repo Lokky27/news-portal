@@ -4,10 +4,11 @@ import org.newsportal.database.repository.ArticleRepository;
 import org.newsportal.service.ArticleService;
 import org.newsportal.service.mapper.ArticleMapper;
 import org.newsportal.service.model.Article;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
     private final ArticleMapper articleMapper;

@@ -4,10 +4,11 @@ import org.newsportal.database.repository.UserRepository;
 import org.newsportal.service.UserService;
 import org.newsportal.service.mapper.UserMapper;
 import org.newsportal.service.model.User;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
