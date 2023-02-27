@@ -13,7 +13,7 @@ public interface UserRepository {
 
     User findByUsername(String userName);
 
-    Set<Article> getArticlesOfUser(User user);
+    Set<Article> findArticlesOfUser(User user);
 
     User createUser(User user);
 

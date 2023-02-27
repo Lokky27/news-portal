@@ -35,4 +35,14 @@ public class Article {
     public int hashCode() {
         return Objects.hash(getId(), getTitle(), getContent(), getUser().hashCode());
     }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", user=" + user.getId() +
+                '}';
+    }
 }
