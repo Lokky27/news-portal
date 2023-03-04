@@ -36,7 +36,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Optional<Article> createUser(Article article) {
+    public Optional<Article> createArticle(Article article) {
         org.newsportal.database.repository.entity.Article articleToSave = articleMapper.mapToDatabase(article);
         return Optional.of(articleMapper.mapToService(articleRepository.createArticle(articleToSave)));
     }

@@ -21,21 +21,8 @@ public class User {
     private String username;
     @Column(name = "password")
     private String password;
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<Article> articleSet = new HashSet<>();
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return Objects.equals(getId(), user.getId()) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getArticleSet(), user.getArticleSet());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getPassword(), getArticleSet());
-    }
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<Article> articleSet;
 
     @Override
     public String toString() {
@@ -43,7 +30,6 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", articleSet=" + articleSet.toString() +
                 '}';
     }
 }

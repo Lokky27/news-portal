@@ -12,7 +12,7 @@ public interface ArticleService {
 
     Optional<Article> getByTitle(String title);
 
-    Optional<Article> createUser(Article article);
+    Optional<Article> createArticle(Article article);
 
     Optional<Article> changeArticleById(Long id, Article article);
 

@@ -19,23 +19,9 @@ public class Article {
     private String title;
     @Column(name = "content")
     private String content;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Article)) return false;
-        Article article = (Article) o;
-        return Objects.equals(getId(), article.getId()) && Objects.equals(getTitle(), article.getTitle()) && Objects.equals(getContent(), article.getContent()) && Objects.equals(getUser(), article.getUser());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getContent(), getUser().hashCode());
-    }
-
     @Override
     public String toString() {
         return "Article{" +

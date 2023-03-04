@@ -16,6 +16,7 @@ public class ArticleMapperImpl implements ArticleMapper {
         if (source == null) return null;
         User user = null;
         if (source.getUser() != null) {
+            user = new User();
             user.setId(source.getUser().getId());
             user.setUsername(source.getUser().getUsername());
             user.setPassword(source.getUser().getPassword());
@@ -31,6 +32,7 @@ public class ArticleMapperImpl implements ArticleMapper {
         if (source == null) return null;
         org.newsportal.service.model.User user = null;
         if (source.getUser() != null) {
+            user = new org.newsportal.service.model.User();
             user.setId(source.getUser().getId());
             user.setPassword(source.getUser().getPassword());
             user.setUsername(source.getUser().getUsername());

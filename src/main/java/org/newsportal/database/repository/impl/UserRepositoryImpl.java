@@ -99,4 +99,9 @@ public class UserRepositoryImpl implements UserRepository {
             session.getTransaction().commit();
         }
     }
+
+    public static void main(String[] args) {
+        UserRepository repository = new UserRepositoryImpl();
+        repository.findById(1L).getArticleSet().stream().forEach(System.out::println);
+    }
 }
