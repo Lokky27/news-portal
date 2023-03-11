@@ -21,24 +21,24 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Optional<List<Article>> getAll() {
 
-        return Optional.of(articleMapper.mapToService(articleRepository.findAll()));
+        return Optional.ofNullable(articleMapper.mapToService(articleRepository.findAll()));
     }
 
     @Override
     public Optional<Article> getById(Long id) {
-        return Optional.of(articleMapper.mapToService(articleRepository.findById(id)));
+        return Optional.ofNullable(articleMapper.mapToService(articleRepository.findById(id)));
     }
 
     @Override
     public Optional<Article> getByTitle(String title) {
 
-        return Optional.of(articleMapper.mapToService(articleRepository.findByTitle(title)));
+        return Optional.ofNullable(articleMapper.mapToService(articleRepository.findByTitle(title)));
     }
 
     @Override
     public Optional<Article> createArticle(Article article) {
         org.newsportal.database.repository.entity.Article articleToSave = articleMapper.mapToDatabase(article);
-        return Optional.of(articleMapper.mapToService(articleRepository.createArticle(articleToSave)));
+        return Optional.ofNullable(articleMapper.mapToService(articleRepository.createArticle(articleToSave)));
     }
 
     @Override

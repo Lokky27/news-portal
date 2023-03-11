@@ -4,6 +4,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.newsportal.database.repository.ArticleRepository;
 import org.newsportal.database.repository.UserRepository;
 import org.newsportal.database.repository.entity.Article;
 import org.newsportal.database.repository.entity.User;
@@ -58,14 +59,14 @@ public class UserRepositoryImpl implements UserRepository {
             return session.createQuery(criteriaQuery).getSingleResult();
         }
     }
-
-    @Override
-    public Set<Article> findArticlesOfUser(User user) {
-        try(Session session = sessionFactory.openSession()) {
-            Query query = session.createQuery("from Article as article join article.user as user with user.id=" + user.getId());
-            return new HashSet<>(query.getResultList());
-        }
-    }
+//
+//    @Override
+//    public Set<Article> findArticlesOfUser(User user) {
+//        try(Session session = sessionFactory.openSession()) {
+//            Query query = session.createQuery("from Article as article join article.user as user with user.id=" + user.getId());
+//            return new HashSet<>(query.getResultList());
+//        }
+//    }
 
     @Override
     public User createUser(User user) {
@@ -92,16 +93,12 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    @Transactional
     public void deleteUserById(Long id) {
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.delete(session.get(User.class, id));
             session.getTransaction().commit();
         }
-    }
-
-    public static void main(String[] args) {
-        UserRepository repository = new UserRepositoryImpl();
-        repository.findById(1L).getArticleSet().stream().forEach(System.out::println);
     }
 }

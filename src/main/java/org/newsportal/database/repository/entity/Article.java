@@ -1,6 +1,8 @@
 package org.newsportal.database.repository.entity;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -19,7 +21,8 @@ public class Article {
     private String title;
     @Column(name = "content")
     private String content;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,
+               cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
     @Override

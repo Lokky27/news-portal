@@ -1,7 +1,7 @@
 package org.newsportal.service.mapper;
 
-import org.newsportal.database.repository.entity.Article;
 import org.newsportal.database.repository.entity.User;
+import org.newsportal.service.model.Article;
 
 import java.util.List;
 import java.util.Optional;

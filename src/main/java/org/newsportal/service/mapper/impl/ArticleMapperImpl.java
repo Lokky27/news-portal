@@ -3,23 +3,37 @@ package org.newsportal.service.mapper.impl;
 import org.newsportal.database.repository.entity.Article;
 import org.newsportal.database.repository.entity.User;
 import org.newsportal.service.mapper.ArticleMapper;
+import org.newsportal.service.mapper.UserMapper;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 @Component
 public class ArticleMapperImpl implements ArticleMapper {
+
+//    private final UserMapper userMapper;
+//
+//    public ArticleMapperImpl(UserMapper userMapper) {
+//        this.userMapper = userMapper;
+//    }
+
     @Override
     public Article mapToDatabase(org.newsportal.service.model.Article source) {
         if (source == null) return null;
         User user = null;
         if (source.getUser() != null) {
+//            user = userMapper.mapToDatabase(source.getUser());
             user = new User();
             user.setId(source.getUser().getId());
             user.setUsername(source.getUser().getUsername());
             user.setPassword(source.getUser().getPassword());
+            source.getUser().getArticleSet().stream()
+                    .map(this::mapToDatabase)
+                    .collect(Collectors.toSet());
+
         }
         return new Article(source.getId(),
                 source.getTitle(),
@@ -36,6 +50,9 @@ public class ArticleMapperImpl implements ArticleMapper {
             user.setId(source.getUser().getId());
             user.setPassword(source.getUser().getPassword());
             user.setUsername(source.getUser().getUsername());
+            source.getUser().getArticleSet().stream()
+                    .map(this::mapToService)
+                    .collect(Collectors.toSet());
         }
         return new org.newsportal.service.model.Article(source.getId(),
                 source.getTitle(),
@@ -58,5 +75,10 @@ public class ArticleMapperImpl implements ArticleMapper {
                 .map(this::mapToService)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
+    }
+
+    public static void main(String[] args) {
+        ArticleMapper articleMapper = new ArticleMapperImpl();
+        System.out.println(articleMapper.mapToService(new Article(1L, "test", "test", new User(1L, "test", "test",  Collections.singleton(new Article(1L, "test", "test", new User(2L, "test", "test", Collections.EMPTY_SET)))))));
     }
 }

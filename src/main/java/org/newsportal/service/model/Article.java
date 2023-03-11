@@ -15,4 +15,14 @@ public class Article {
     private String title;
     private String content;
     private User user;
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", user=" + user.toString() +
+                '}';
+    }
 }

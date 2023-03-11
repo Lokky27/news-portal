@@ -1,6 +1,8 @@
 package org.newsportal.database.repository.entity;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -21,7 +23,9 @@ public class User {
     private String username;
     @Column(name = "password")
     private String password;
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user",
+               fetch = FetchType.EAGER,
+               orphanRemoval = true)
     private Set<Article> articleSet;
 
     @Override
