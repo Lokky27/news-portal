@@ -12,12 +12,9 @@ import org.newsportal.database.repository.entity.Article;
 import org.newsportal.database.repository.entity.User;
 
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 import java.util.HashSet;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ArticleServiceImplTest {
@@ -68,7 +65,10 @@ class ArticleServiceImplTest {
 
     @Test
     void changeArticleById() {
-        articleService.changeArticleById(eq(anyLong()), any(org.newsportal.service.model.Article.class));
+        org.newsportal.service.model.Article newArticle = new org.newsportal.service.model.Article();
+        newArticle.setTitle("A new Article");
+        newArticle.setContent("A content of a new article");
+        articleService.changeArticleById(anyLong(), newArticle);
         verify(mapper).mapToService((Article) any());
         verify(repository).updateArticleById(anyLong(), any());
     }
@@ -76,7 +76,6 @@ class ArticleServiceImplTest {
     @Test
     void removeUserById() {
         articleService.removeUserById(anyLong());
-        verify(mapper, times(1)).mapToService((Article) any());
-        verify(repository, times(1)).deleteArticleById(anyLong());
+        verify(repository).deleteArticleById(anyLong());
     }
 }

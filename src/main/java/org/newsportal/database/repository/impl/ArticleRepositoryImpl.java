@@ -1,12 +1,9 @@
 package org.newsportal.database.repository.impl;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.newsportal.database.repository.ArticleRepository;
-import org.newsportal.database.repository.UserRepository;
 import org.newsportal.database.repository.entity.Article;
-import org.newsportal.database.repository.entity.User;
 import org.newsportal.database.repository.util.HibernateUtil;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +13,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Set;
+
 @Repository
 public class ArticleRepositoryImpl implements ArticleRepository {
     private final SessionFactory sessionFactory;
@@ -80,12 +77,12 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     }
 
     @Override
-    public void deleteArticleById(Long id) {
+    public Boolean deleteArticleById(Long id) {
         try(Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.delete(session.get(Article.class, id));
             session.getTransaction().commit();
+            return session.get(Article.class, id) == null;
         }
     }
-
 }

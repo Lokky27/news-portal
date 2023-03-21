@@ -1,8 +1,10 @@
 package org.newsportal.service.impl;
 
 import org.newsportal.database.repository.ArticleRepository;
+import org.newsportal.database.repository.impl.ArticleRepositoryImpl;
 import org.newsportal.service.ArticleService;
 import org.newsportal.service.mapper.ArticleMapper;
+import org.newsportal.service.mapper.impl.ArticleMapperImpl;
 import org.newsportal.service.model.Article;
 import org.springframework.stereotype.Service;
 
@@ -48,8 +50,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void removeUserById(Long id) {
-        articleRepository.deleteArticleById(id);
-
+    public Optional<Boolean> removeUserById(Long id) {
+        return Optional.of(articleRepository.deleteArticleById(id));
     }
 }

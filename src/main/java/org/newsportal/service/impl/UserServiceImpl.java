@@ -1,14 +1,8 @@
 package org.newsportal.service.impl;
 
-import org.newsportal.database.repository.ArticleRepository;
 import org.newsportal.database.repository.UserRepository;
-import org.newsportal.database.repository.impl.ArticleRepositoryImpl;
-import org.newsportal.database.repository.impl.UserRepositoryImpl;
 import org.newsportal.service.UserService;
-import org.newsportal.service.mapper.ArticleMapper;
 import org.newsportal.service.mapper.UserMapper;
-import org.newsportal.service.mapper.impl.ArticleMapperImpl;
-import org.newsportal.service.mapper.impl.UserMapperImpl;
 import org.newsportal.service.model.User;
 import org.springframework.stereotype.Service;
 
@@ -31,21 +25,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getById(Long id) {
-        User userFromDb = userMapper.mapToService(userRepository.findById(id));
-        return Optional.of(userFromDb);
+        return Optional.ofNullable(userMapper.mapToService(userRepository.findById(id)));
     }
 
     @Override
     public Optional<User> getByUsername(String userName) {
 
-        return Optional.of(userMapper.mapToService(userRepository.findByUsername(userName)));
+        return Optional.ofNullable(userMapper.mapToService(userRepository.findByUsername(userName)));
     }
 
     @Override
     public Optional<User> createUser(User user)
     {
         org.newsportal.database.repository.entity.User savedUser = userMapper.mapToDatabase(user);
-        return Optional.of(userMapper.mapToService(userRepository.createUser(savedUser)));
+        return Optional.ofNullable(userMapper.mapToService(userRepository.createUser(savedUser)));
     }
 
     @Override
@@ -55,20 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void removeUserById(Long id) {
-
-        userRepository.deleteUserById(id);
-    }
-
-    public static void main(String[] args) {
-        UserRepository repository = new UserRepositoryImpl();
-        ArticleRepository articleRepository = new ArticleRepositoryImpl();
-//        ArticleMapper articleMapper = new ArticleMapperImpl(userMapper);
-//        UserMapper userMapper1 = new UserMapperImpl(articleMapper);
-//        UserService service = new UserServiceImpl(repository, userMapper1);
-//        ArticleServiceImpl articleService = new ArticleServiceImpl(articleRepository, articleMapper);
-
-
-//        System.out.println(articleService.getById(10L));
+    public Optional<Boolean> removeUserById(Long id) {
+        return Optional.of(userRepository.deleteUserById(id));
     }
 }

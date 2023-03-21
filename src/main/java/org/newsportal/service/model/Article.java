@@ -22,7 +22,6 @@ public class Article {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                ", user=" + user.toString() +
                 '}';
     }
 }

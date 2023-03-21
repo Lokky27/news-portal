@@ -16,6 +16,6 @@ public interface ArticleService {
 
     Optional<Article> changeArticleById(Long id, Article article);
 
-    void removeUserById(Long id);
+    Optional<Boolean> removeUserById(Long id);
 
 }

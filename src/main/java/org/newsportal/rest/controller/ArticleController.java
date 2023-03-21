@@ -19,30 +19,34 @@ public class ArticleController {
 
     @GetMapping("/articles")
     public ResponseEntity<List<Article>> getAllArticles() {
-        return ResponseEntity.ok(articleService.getAll().orElseThrow(() -> new RuntimeException("Cant get all articles")));
+        return ResponseEntity.ok(articleService.getAll().orElseThrow(() ->
+                new RuntimeException("Cant get all articles")));
     }
 
     @GetMapping("/articles/{articleId}")
     public ResponseEntity<Article> getArticleById(@PathVariable("articleId") Long id) {
-        return ResponseEntity.ok(articleService.getById(id).orElseThrow(() -> new RuntimeException("Article not exists")));
+        return ResponseEntity.ok(articleService.getById(id).orElseThrow(() ->
+                new RuntimeException("Article not exists")));
     }
 
     @PostMapping("/articles")
     public ResponseEntity<Article> createArticle(@RequestBody Article article) {
 
-        return ResponseEntity.ok(articleService.createArticle(article).orElseThrow(() -> new RuntimeException("Can't create an Article")));
+        return ResponseEntity.ok(articleService.createArticle(article).orElseThrow(() ->
+                new RuntimeException("Can't create an Article")));
     }
 
     @PutMapping("articles/{articleId}")
     public ResponseEntity<Article> changeArticleById(@PathVariable("articleId") Long id,
                                                      @RequestBody Article article) {
 
-        return ResponseEntity.ok(articleService.changeArticleById(id, article).orElseThrow(() -> new RuntimeException("Article not exists")));
+        return ResponseEntity.ok(articleService.changeArticleById(id, article).orElseThrow(() ->
+                new RuntimeException("Article not exists")));
     }
 
     @DeleteMapping("/articles/{articleId}")
-    public ResponseEntity<?> removeArticleById(@PathVariable("articleId") Long id) {
-        articleService.removeUserById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Boolean> removeArticleById(@PathVariable("articleId") Long id) {
+        return ResponseEntity.ok(articleService.removeUserById(id).orElseThrow(() ->
+                new RuntimeException("Article not exists")));
     }
 }

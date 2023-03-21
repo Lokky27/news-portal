@@ -16,5 +16,5 @@ public interface UserService {
 
     Optional<User> changeUserById(Long id, User user);
 
-    void removeUserById(Long id);
+    Optional<Boolean> removeUserById(Long id);
 }

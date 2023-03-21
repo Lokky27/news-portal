@@ -76,9 +76,4 @@ public class ArticleMapperImpl implements ArticleMapper {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
-
-    public static void main(String[] args) {
-        ArticleMapper articleMapper = new ArticleMapperImpl();
-        System.out.println(articleMapper.mapToService(new Article(1L, "test", "test", new User(1L, "test", "test",  Collections.singleton(new Article(1L, "test", "test", new User(2L, "test", "test", Collections.EMPTY_SET)))))));
-    }
 }
