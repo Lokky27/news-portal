@@ -22,6 +22,7 @@ public class Article {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
+                ", user_id='" + user.getId() +
                 '}';
     }
 }

@@ -50,7 +50,7 @@ public class UserRepositoryImpl implements UserRepository {
             criteriaQuery.select(criteriaQuery.from(User.class));
             criteriaQuery.where(session.getCriteriaBuilder().equal(criteriaQuery.from(User.class).get("username"), userName));
 
-            return session.createQuery(criteriaQuery).getSingleResult();
+            return session.createQuery(criteriaQuery).setMaxResults(1).uniqueResult();
         }
     }
 

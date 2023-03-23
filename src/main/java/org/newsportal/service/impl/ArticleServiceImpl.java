@@ -46,11 +46,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Optional<Article> changeArticleById(Long id, Article article) {
         org.newsportal.database.repository.entity.Article articleToUpdate = articleMapper.mapToDatabase(article);
-        return Optional.of(articleMapper.mapToService(articleRepository.updateArticleById(id, articleToUpdate)));
+        return Optional.ofNullable(articleMapper.mapToService(articleRepository.updateArticleById(id, articleToUpdate)));
     }
 
     @Override
     public Optional<Boolean> removeUserById(Long id) {
-        return Optional.of(articleRepository.deleteArticleById(id));
+        return Optional.ofNullable(articleRepository.deleteArticleById(id));
     }
 }

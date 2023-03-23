@@ -15,7 +15,7 @@ public class User {
     private Long id;
     private String username;
     private String password;
-    private Set<Article> articleSet;
+    private Set<Article> articleSet = new HashSet<>();
 
     @Override
     public String toString() {

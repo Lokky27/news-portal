@@ -2,7 +2,6 @@ package org.newsportal.rest.controller;
 
 import org.newsportal.service.UserService;
 import org.newsportal.service.model.User;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +26,8 @@ public class UserController {
         return ResponseEntity.ok(userService.getById(id).orElseThrow(() -> new RuntimeException("User doesn't exists in a system")));
     }
 
-    @GetMapping("/users/{username}")
-    public ResponseEntity<User> getUserByUsername(@PathVariable("username") String username) {
+    @GetMapping("/users/username")
+    public ResponseEntity<User> getUserByUsername(@RequestParam("username") String username) {
         return ResponseEntity.ok(userService.getByUsername(username).orElseThrow(() -> new RuntimeException("User doesn't exists in a system")));
     }
 

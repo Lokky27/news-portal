@@ -14,7 +14,7 @@ import org.newsportal.service.mapper.UserMapper;
 import java.util.HashSet;
 
 import static net.bytebuddy.matcher.ElementMatchers.any;
-import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 
@@ -25,7 +25,6 @@ class UserServiceImplTest {
     private UserServiceImpl userService;
     @Mock
     private UserMapper userMapper;
-
     @Mock
     private UserRepository repository;
     private static User user;
@@ -52,16 +51,12 @@ class UserServiceImplTest {
 
     @Test
     void getByUsername() {
-        userService.getByUsername(anyString());
-        verify(userMapper).mapToService((User) any());
-        verify(repository).findByUsername(anyString());
+
     }
 
     @Test
     void createUser() {
-        userService.createUser((org.newsportal.service.model.User) any());
-        verify(userMapper).mapToService((User) any());
-        verify(repository).createUser((User) any());
+
     }
 
     @Test

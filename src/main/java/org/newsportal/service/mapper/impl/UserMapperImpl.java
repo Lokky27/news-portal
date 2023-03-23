@@ -65,13 +65,4 @@ public class UserMapperImpl implements UserMapper {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
-
-    public static void main(String[] args) {
-        UserRepository repository = new UserRepositoryImpl();
-        UserMapper mapper = new UserMapperImpl();
-        User user = repository.findById(3L);
-        org.newsportal.service.model.User serviceUser = mapper.mapToService(user);
-        System.out.println(serviceUser);
-
-    }
 }

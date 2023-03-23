@@ -1,7 +1,9 @@
 package org.newsportal.service.mapper.impl;
 
+import org.newsportal.database.repository.ArticleRepository;
 import org.newsportal.database.repository.entity.Article;
 import org.newsportal.database.repository.entity.User;
+import org.newsportal.database.repository.impl.ArticleRepositoryImpl;
 import org.newsportal.service.mapper.ArticleMapper;
 import org.newsportal.service.mapper.UserMapper;
 import org.springframework.context.ApplicationContext;
@@ -14,26 +16,15 @@ import java.util.stream.Collectors;
 @Component
 public class ArticleMapperImpl implements ArticleMapper {
 
-//    private final UserMapper userMapper;
-//
-//    public ArticleMapperImpl(UserMapper userMapper) {
-//        this.userMapper = userMapper;
-//    }
-
     @Override
     public Article mapToDatabase(org.newsportal.service.model.Article source) {
         if (source == null) return null;
         User user = null;
         if (source.getUser() != null) {
-//            user = userMapper.mapToDatabase(source.getUser());
             user = new User();
             user.setId(source.getUser().getId());
             user.setUsername(source.getUser().getUsername());
             user.setPassword(source.getUser().getPassword());
-            source.getUser().getArticleSet().stream()
-                    .map(this::mapToDatabase)
-                    .collect(Collectors.toSet());
-
         }
         return new Article(source.getId(),
                 source.getTitle(),
@@ -50,9 +41,7 @@ public class ArticleMapperImpl implements ArticleMapper {
             user.setId(source.getUser().getId());
             user.setPassword(source.getUser().getPassword());
             user.setUsername(source.getUser().getUsername());
-            source.getUser().getArticleSet().stream()
-                    .map(this::mapToService)
-                    .collect(Collectors.toSet());
+
         }
         return new org.newsportal.service.model.Article(source.getId(),
                 source.getTitle(),
