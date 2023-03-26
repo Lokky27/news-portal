@@ -1,21 +1,17 @@
 package org.newsportal.service.mapper.impl;
 
-import org.newsportal.database.repository.ArticleRepository;
+
 import org.newsportal.database.repository.entity.Article;
 import org.newsportal.database.repository.entity.User;
-import org.newsportal.database.repository.impl.ArticleRepositoryImpl;
 import org.newsportal.service.mapper.ArticleMapper;
 import org.newsportal.service.mapper.UserMapper;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 @Component
 public class ArticleMapperImpl implements ArticleMapper {
-
     @Override
     public Article mapToDatabase(org.newsportal.service.model.Article source) {
         if (source == null) return null;
@@ -37,11 +33,11 @@ public class ArticleMapperImpl implements ArticleMapper {
         if (source == null) return null;
         org.newsportal.service.model.User user = null;
         if (source.getUser() != null) {
-            user = new org.newsportal.service.model.User();
-            user.setId(source.getUser().getId());
-            user.setPassword(source.getUser().getPassword());
-            user.setUsername(source.getUser().getUsername());
-
+            user = org.newsportal.service.model.User.builder()
+                    .id(source.getUser().getId())
+                    .username(source.getUser().getUsername())
+                    .password(source.getUser().getPassword())
+                    .build();
         }
         return new org.newsportal.service.model.Article(source.getId(),
                 source.getTitle(),

@@ -18,8 +18,8 @@ import java.util.List;
 public class ArticleRepositoryImpl implements ArticleRepository {
     private final SessionFactory sessionFactory;
 
-    public ArticleRepositoryImpl() {
-        this.sessionFactory = HibernateUtil.getSessionFactory();
+    public ArticleRepositoryImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override

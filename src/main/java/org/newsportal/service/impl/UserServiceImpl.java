@@ -40,8 +40,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> createUser(User user)
     {
-        org.newsportal.database.repository.entity.User savedUser = userMapper.mapToDatabase(user);
-        return Optional.ofNullable(userMapper.mapToService(userRepository.createUser(savedUser)));
+        return Optional.ofNullable(userMapper.mapToService(
+                userRepository.createUser(userMapper.mapToDatabase(user)))
+        );
     }
 
     @Override

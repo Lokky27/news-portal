@@ -1,10 +1,10 @@
 package org.newsportal.service.model;
 
-import com.sun.istack.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -15,7 +15,7 @@ public class User {
     private Long id;
     private String username;
     private String password;
-    private Set<Article> articleSet = new HashSet<>();
+    private Set<Article> articleSet;
 
     @Override
     public String toString() {
@@ -23,6 +23,7 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                //", articles='" + articleSet.toString() +
                 '}';
     }
 }

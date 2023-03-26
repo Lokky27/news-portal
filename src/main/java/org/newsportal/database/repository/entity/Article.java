@@ -13,6 +13,7 @@ import java.util.Objects;
 @Table(name = "article")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
