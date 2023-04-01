@@ -14,7 +14,7 @@ public class Article {
     private Long id;
     private String title;
     private String content;
-    private User user = new User();
+    private String username;
 
     @Override
     public String toString() {
@@ -22,7 +22,7 @@ public class Article {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                //", user_id='" + user.getId() +
+                ", user='" + username +
                 '}';
     }
 }

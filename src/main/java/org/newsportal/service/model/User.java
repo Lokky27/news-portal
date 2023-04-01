@@ -15,15 +15,15 @@ public class User {
     private Long id;
     private String username;
     private String password;
-    private Set<Article> articleSet;
+    private Set<String> articles;
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                //", articles='" + articleSet.toString() +
                 '}';
     }
 }

@@ -1,10 +1,11 @@
 package org.newsportal.service.mapper.impl;
 
 
+import org.newsportal.database.repository.ArticleRepository;
+import org.newsportal.database.repository.UserRepository;
 import org.newsportal.database.repository.entity.Article;
 import org.newsportal.database.repository.entity.User;
 import org.newsportal.service.mapper.ArticleMapper;
-import org.newsportal.service.mapper.UserMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,37 +13,41 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 @Component
 public class ArticleMapperImpl implements ArticleMapper {
+
+    private final UserRepository userRepository;
+
+    public ArticleMapperImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
     public Article mapToDatabase(org.newsportal.service.model.Article source) {
         if (source == null) return null;
         User user = null;
-        if (source.getUser() != null) {
-            user = new User();
-            user.setId(source.getUser().getId());
-            user.setUsername(source.getUser().getUsername());
-            user.setPassword(source.getUser().getPassword());
+        if (source.getUsername() != null) {
+            user = userRepository.findByUsername(source.getUsername());
         }
-        return new Article(source.getId(),
-                source.getTitle(),
-                source.getContent(),
-                user);
+        return Article.builder()
+                .id(source.getId())
+                .title(source.getTitle())
+                .content(source.getContent())
+                .user(user)
+                .build();
     }
 
     @Override
     public org.newsportal.service.model.Article mapToService(Article source) {
         if (source == null) return null;
-        org.newsportal.service.model.User user = null;
+        String username = null;
         if (source.getUser() != null) {
-            user = org.newsportal.service.model.User.builder()
-                    .id(source.getUser().getId())
-                    .username(source.getUser().getUsername())
-                    .password(source.getUser().getPassword())
-                    .build();
+            username = source.getUser().getUsername();
         }
-        return new org.newsportal.service.model.Article(source.getId(),
-                source.getTitle(),
-                source.getContent(),
-                user);
+        return org.newsportal.service.model.Article.builder()
+                .id(source.getId())
+                .title(source.getTitle())
+                .content(source.getContent())
+                .username(username)
+                .build();
     }
 
     @Override

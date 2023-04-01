@@ -48,7 +48,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
             CriteriaQuery<Article> articleCriteriaQuery = session.getCriteriaBuilder().createQuery(Article.class);
             articleCriteriaQuery.select(articleCriteriaQuery.from(Article.class));
             articleCriteriaQuery.where(session.getCriteriaBuilder().equal(articleCriteriaQuery.from(Article.class).get("title"), title));
-            return session.createQuery(articleCriteriaQuery).getSingleResult();
+            return session.createQuery(articleCriteriaQuery).setMaxResults(1).uniqueResult();
         }
     }
 

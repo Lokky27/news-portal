@@ -1,5 +1,6 @@
 package org.newsportal.service;
 
+import org.newsportal.service.model.Article;
 import org.newsportal.service.model.User;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public interface UserService {
     Optional<User> getByUsername(String userName);
 
     Optional<User> createUser(User user);
+
+    Optional<User> addArticleToUser(Long id, Article article);
 
     Optional<User> changeUserById(Long id, User user);
 

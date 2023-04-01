@@ -1,5 +1,6 @@
 package org.newsportal.database.repository;
 
+import org.newsportal.database.repository.entity.Article;
 import org.newsportal.database.repository.entity.User;
 
 import java.util.List;

@@ -3,7 +3,9 @@ package org.newsportal.database.repository.impl;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.newsportal.database.repository.ArticleRepository;
 import org.newsportal.database.repository.UserRepository;
+import org.newsportal.database.repository.entity.Article;
 import org.newsportal.database.repository.entity.User;
 import org.newsportal.database.repository.util.HibernateUtil;
 import org.springframework.stereotype.Repository;
@@ -18,7 +20,6 @@ import java.util.List;
 @Repository
 public class UserRepositoryImpl implements UserRepository {
     private final SessionFactory sessionFactory;
-
     public UserRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }

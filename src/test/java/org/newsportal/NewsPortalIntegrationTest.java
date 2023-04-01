@@ -1,9 +1,10 @@
 package org.newsportal;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.junit.Assert;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.newsportal.database.repository.ArticleRepository;
@@ -24,9 +25,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Properties;
 
 @Testcontainers
@@ -45,6 +44,8 @@ public class NewsPortalIntegrationTest {
 
     private static org.newsportal.service.model.User modelUser;
     private static org.newsportal.service.model.Article modelArticle;
+    private static User userEntity;
+    private static Article articleEntity;
 
     @BeforeAll
     public static void setUp() {
@@ -63,38 +64,56 @@ public class NewsPortalIntegrationTest {
                 .addAnnotatedClass(User.class)
                 .buildSessionFactory();
 
+        userRepository = new UserRepositoryImpl(sessionFactory);
         articleRepository = new ArticleRepositoryImpl(sessionFactory);
-        articleMapper = new ArticleMapperImpl();
+        articleMapper = new ArticleMapperImpl(userRepository);
         articleService = new ArticleServiceImpl(articleRepository, articleMapper);
 
-        userRepository = new UserRepositoryImpl(sessionFactory);
-        userMapper = new UserMapperImpl();
-        userService = new UserServiceImpl(userRepository, userMapper);
+        userMapper = new UserMapperImpl(articleRepository);
+        userService = new UserServiceImpl(userRepository, articleRepository, userMapper, articleMapper);
 
         modelUser = org.newsportal.service.model.User.builder()
                 .username("Updated first user")
                 .password("qwerty12345")
                 .build();
 
+        modelArticle = org.newsportal.service.model.Article.builder()
+                .title("Test article")
+                .content("Content of the test article")
+                .username(modelUser.getUsername())
+                .build();
+
     }
 
     @Test
     public void newsPortalIntegrationTest() {
-        //userService.createUser(modelUser);
-        org.newsportal.service.model.User newUser = userService.getByUsername(modelUser.getUsername())
-                .orElse(null);
-        Assertions.assertEquals(modelUser, newUser);
-        modelArticle = org.newsportal.service.model.Article.builder()
-                .title("test title")
-                .content("test content")
-                .user(modelUser)
+        org.newsportal.service.model.User expectedUser = org.newsportal.service.model.User.builder()
+                .id(1L)
+                .username(modelUser.getUsername())
+                .password(modelUser.getPassword())
                 .build();
-        articleService.createArticle(modelArticle);
-        modelUser.getArticleSet().add(modelArticle);
-        List<org.newsportal.service.model.Article> articles = articleService.getAll().get();
-        Assertions.assertEquals(articles, Collections.singletonList(modelArticle));
+        org.newsportal.service.model.User createdUser = userService.createUser(modelUser).get();
+        Assertions.assertThat(createdUser.getUsername()).isEqualTo(expectedUser.getUsername());
 
+        org.newsportal.service.model.Article expectedArticle = org.newsportal.service.model.Article.builder()
+                .id(1L)
+                .title(modelArticle.getTitle())
+                .content(modelArticle.getContent())
+                .username(modelUser.getUsername())
+                .build();
 
+        org.newsportal.service.model.Article createdArticle = articleService.createArticle(modelArticle).get();
+        Assertions.assertThat(createdArticle.getTitle()).isEqualTo(expectedArticle.getTitle());
+
+        org.newsportal.service.model.Article updatedExpectedArticle = org.newsportal.service.model.Article.builder()
+                .title("Article was updated")
+                .content("Test update Article content")
+                .username(modelUser.getUsername())
+                .build();
+        org.newsportal.service.model.Article updatedArticle = articleService.changeArticleById(1L, updatedExpectedArticle).get();
+        Assertions.assertThat(updatedArticle.getTitle()).isEqualTo("Article was updated");
+        Assertions.assertThat(updatedArticle.getContent()).isEqualTo("Test update Article content");
+        Assertions.assertThat(updatedArticle.getId()).isEqualTo(1L);
     }
     @AfterAll
     public static void shutDown() {
